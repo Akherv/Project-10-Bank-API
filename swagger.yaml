@@ -202,6 +202,35 @@ paths:
           description: Invalid Fields (Year/Month)
         "500":
           description: Internal Server Error
+  /user/transaction:
+    post:
+      tags:
+        - Transaction Module
+      summary: Create new transaction for an user
+      description: API for creating new transaction for an user
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Create transaction Payload
+          required: true
+          schema:
+            $ref: "#/definitions/Transaction"
+      produces:
+        - application/json
+      responses:
+        "201":
+          description: Create new transaction Successfully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
   /user/transaction/{id}:
     get:
       security:
@@ -346,6 +375,41 @@ definitions:
         type: string
       lastName:
         type: string
+  Transaction:
+    properties:
+      items:
+        type: object
+        properties:
+          year:
+            type: number
+            description: year of the transaction
+          month:
+            type: number
+            description: month of the transaction
+          day:
+            type: number
+            description: day of the transaction
+          title:
+            type: string
+            description: title of the transaction
+          description:
+            type: string
+            description: description of the transaction
+          amount:
+            type: number
+            description: amount of the transaction
+          balance:
+            type: number
+            description: balance of the transaction
+          type:
+            type: string
+            description: type of the transaction
+          category:
+            type: string
+            description: category of the transaction
+          notes:
+            type: string
+            description: notes on the transaction
   TransactionsYear:
     type: object
     properties:
@@ -377,6 +441,24 @@ definitions:
     properties:
       id:
         type: string
+  TransactionResponse:
+    properties:
+      items:
+        type: object
+        properties:
+          status:
+            type: integer
+          message:
+            type: string
+          body:
+            type: object
+            properties:
+              id:
+                type: string
+                description: id of the new transaction created
+              title:
+                type: string
+                description: title of the transaction
   TransactionsResponse:
     type: array
     items:
